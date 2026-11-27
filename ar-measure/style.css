@@ -1,22 +1,25 @@
-:root {
-  --bg: #FAF7EF;
-  --surface: #FFFFFF;
-  --ink: #14161B;
-  --muted: #5B5F6B;
-  --line: #E8E2D2;
-  --accent: #B87900;
-  --link: #2F6BFF;
+/* AR Measure legal pages: the app's "D1 Instrument" theme (core/designsystem Color.kt, Type.kt, Theme.kt).
+   Cool light grey, white cards with 1px hairlines and no shadows, yellow only as a marker.
+   Light only, like the app. Font: Plus Jakarta Sans (SIL OFL 1.1, fonts/OFL.txt), the app's own file. */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("fonts/PlusJakartaSans.ttf") format("truetype-variations"), url("fonts/PlusJakartaSans.ttf") format("truetype");
+  font-weight: 200 800;
+  font-display: swap;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #14161B;
-    --surface: #1D2027;
-    --ink: #F2F0EA;
-    --muted: #A9ADB8;
-    --line: #2E323B;
-    --accent: #FFD43B;
-    --link: #7FA3FF;
-  }
+:root {
+  color-scheme: light;
+  --bg: #F4F5F7;        /* Background */
+  --surface: #FFFFFF;   /* Surface */
+  --ink: #14161B;       /* Ink / Graphite */
+  --muted: #5B616E;     /* InkMuted */
+  --line: #E2E4E9;      /* Line */
+  --chip: #EEF0F3;      /* ChipNeutral */
+  --yellow: #FFD43B;    /* Yellow */
+  --link: #1E4FC2;      /* BlueInk */
+  --tip-bg: #FFF8DB;    /* TipBackground */
+  --tip-line: #F3E2A0;  /* TipBorder */
+  --tip-ink: #5A3D00;   /* TipInk */
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -24,35 +27,62 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+  font-feature-settings: "tnum";
 }
-main {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 40px 20px 64px;
+main { max-width: 760px; margin: 0 auto; padding: 28px 16px 56px; }
+
+/* Header: small uppercase label, bold title, muted date, short yellow marker like the active tab. */
+header { margin-bottom: 24px; }
+header::after {
+  content: ""; display: block; width: 48px; height: 4px; border-radius: 2px;
+  background: var(--yellow); margin-top: 16px;
 }
-header { border-bottom: 4px solid #FFD43B; padding-bottom: 16px; margin-bottom: 28px; }
-.brand { font-weight: 700; color: var(--accent); letter-spacing: .02em; margin: 0 0 6px; }
-h1 { font-size: 32px; line-height: 1.2; margin: 0 0 8px; }
-h2 { font-size: 22px; margin: 36px 0 8px; }
-h3 { font-size: 18px; margin: 22px 0 6px; }
+.brand {
+  margin: 0 0 8px; color: var(--muted);
+  font-size: 11px; line-height: 14px; font-weight: 700; letter-spacing: .9px; text-transform: uppercase;
+}
+h1 { font-size: 28px; line-height: 34px; font-weight: 700; margin: 0 0 6px; letter-spacing: -.2px; }
+h2 { font-size: 19px; line-height: 26px; font-weight: 700; margin: 36px 0 8px; }
+h3 { font-size: 16px; line-height: 22px; font-weight: 700; margin: 22px 0 6px; }
+.meta { color: var(--muted); font-size: 13px; line-height: 18px; margin: 0; }
 p, li { color: var(--ink); }
-.meta { color: var(--muted); margin: 0; }
-a { color: var(--link); }
+strong { font-weight: 700; }
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+code { font-family: inherit; font-weight: 600; background: var(--chip); border-radius: 6px; padding: 1px 6px; font-size: .92em; }
 ul { padding-inline-start: 22px; }
 li { margin: 4px 0; }
+
+/* Cards: white, 1px hairline, 14px corners, no shadow. */
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 16px 20px;
+  border-radius: 14px;
+  padding: 16px 18px;
   margin: 18px 0;
 }
-.card p:first-child { margin-top: 0; }
-.card p:last-child { margin-bottom: 0; }
-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 15px; }
-th, td { text-align: start; vertical-align: top; padding: 10px 8px; border-bottom: 1px solid var(--line); }
-th { color: var(--muted); font-weight: 600; }
-.table-wrap { overflow-x: auto; }
-footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
-nav.links a { margin-inline-end: 16px; }
+.card p:first-child, .card h2:first-child, .card h3:first-child { margin-top: 0; }
+.card p:last-child, .card ul:last-child { margin-bottom: 0; }
+
+/* Tables sit in a card-like frame with hairline rows. */
+.table-wrap {
+  overflow-x: auto; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 14px; margin: 14px 0;
+}
+table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 20px; }
+th, td { text-align: start; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th {
+  color: var(--muted); font-size: 11px; line-height: 14px; font-weight: 700;
+  letter-spacing: .9px; text-transform: uppercase; background: var(--surface);
+}
+
+footer {
+  margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 13px; line-height: 18px;
+}
+footer p { color: var(--muted); }
+nav.links a { margin-inline-end: 16px; font-weight: 600; }
